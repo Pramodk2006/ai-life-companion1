@@ -4,6 +4,5 @@
       "source": "/(.*)",
       "destination": "/api/index.js"
     }
-  ],
-  "_comment": "Force deployment update"
+  ]
 }
