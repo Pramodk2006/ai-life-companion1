@@ -51,6 +51,35 @@ class AICompanion {
     setupRoutes() {
         this.app.use(express.json());
         
+        // Root route for web browsers
+        this.app.get('/', (req, res) => {
+            res.json({ 
+                message: '🤖 AI Life Companion is running!',
+                status: 'active',
+                initialized: this.isInitialized,
+                endpoints: [
+                    '/health',
+                    '/memory/stats',
+                    '/trigger/checkin',
+                    '/scrape/profiles'
+                ]
+            });
+        });
+        
+        // Favicon route (prevents 404s)
+        this.app.get('/favicon.ico', (req, res) => {
+            res.status(204).end(); // No content, just prevent the error
+        });
+        
+        // Global error handler
+        this.app.use((error, req, res, next) => {
+            logger.error('Unhandled route error:', error);
+            res.status(500).json({ 
+                error: 'Internal server error',
+                message: process.env.NODE_ENV === 'development' ? error.message : 'Something went wrong'
+            });
+        });
+        
         this.app.get('/health', (req, res) => {
             res.json({ status: 'ok', initialized: this.isInitialized });
         });
@@ -101,13 +130,33 @@ class AICompanion {
 }
 
 async function main() {
-    const companion = new AICompanion();
-    await companion.initialize();
-    await companion.start();
+    try {
+        const companion = new AICompanion();
+        await companion.initialize();
+        await companion.start();
+    } catch (error) {
+        logger.error('❌ Failed to start AI Companion:', error);
+        console.error('❌ Failed to start AI Companion:', error);
+        process.exit(1);
+    }
 }
 
+// Handle uncaught exceptions
+process.on('uncaughtException', (error) => {
+    console.error('❌ Uncaught Exception:', error);
+    process.exit(1);
+});
+
+process.on('unhandledRejection', (reason, promise) => {
+    console.error('❌ Unhandled Rejection at:', promise, 'reason:', reason);
+    process.exit(1);
+});
+
 if (require.main === module) {
-    main().catch(console.error);
+    main().catch((error) => {
+        console.error('❌ Main function failed:', error);
+        process.exit(1);
+    });
 }
 
 module.exports = AICompanion;
