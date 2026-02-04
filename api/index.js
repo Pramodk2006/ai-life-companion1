@@ -1,37 +1,47 @@
-// Ultra-minimal serverless function for debugging
-module.exports = async (req, res) => {
+// Bulletproof minimal serverless function
+module.exports = (req, res) => {
+    // Immediate try-catch around everything
     try {
-        console.log('Request received:', req.method, req.url);
+        console.log('Function started:', req.method, req.url);
         
-        // Set basic headers
+        // Set essential headers first
         res.setHeader('Content-Type', 'application/json');
+        res.setHeader('Cache-Control', 'no-cache');
         
-        if (req.method === 'GET' && req.url === '/favicon.ico') {
+        // Handle favicon immediately
+        if (req.url === '/favicon.ico') {
+            console.log('Favicon request handled');
             res.status(204).end();
             return;
         }
         
-        // Basic response for all other requests
-        res.status(200).json({
-            message: '🤖 AI Companion - Minimal Mode',
-            status: 'working',
+        // Simple success response for everything else
+        const response = {
+            success: true,
+            message: '🤖 AI Companion - Working!',
             method: req.method,
             url: req.url,
             timestamp: new Date().toISOString(),
-            environment: {
-                node_env: process.env.NODE_ENV,
-                vercel: !!process.env.VERCEL,
-                has_supabase_url: !!process.env.SUPABASE_URL,
-                has_supabase_key: !!process.env.SUPABASE_ANON_KEY
-            }
-        });
+            nodeVersion: process.version,
+            platform: process.platform
+        };
+        
+        console.log('Sending response:', response);
+        res.status(200).json(response);
         
     } catch (error) {
-        console.error('Error in serverless function:', error);
-        res.status(500).json({
-            error: 'Internal server error',
-            message: error.message,
-            timestamp: new Date().toISOString()
-        });
+        // Emergency error handler
+        console.error('Function error:', error);
+        try {
+            res.status(500).json({
+                error: 'Function failed',
+                message: error.message,
+                stack: error.stack
+            });
+        } catch (responseError) {
+            // Last resort - plain text response
+            console.error('Response error:', responseError);
+            res.status(500).end('Function completely failed');
+        }
     }
 };
