@@ -1,0 +1,24 @@
+{
+  "version": 2,
+  "functions": {
+    "start-cloud.js": {
+      "runtime": "nodejs18.x"
+    }
+  },
+  "routes": [
+    {
+      "src": "/(.*)",
+      "dest": "/start-cloud.js"
+    }
+  ],
+  "env": {
+    "NODE_ENV": "production",
+    "CLOUD_MODE": "true",
+    "DISABLE_CONSOLE": "true"
+  },
+  "build": {
+    "env": {
+      "NPM_FLAGS": "--prefer-offline"
+    }
+  }
+}

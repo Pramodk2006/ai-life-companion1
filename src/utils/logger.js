@@ -2,10 +2,22 @@ const winston = require('winston');
 const path = require('path');
 const fs = require('fs');
 
-// Ensure logs directory exists
-const logsDir = path.join(__dirname, '..', '..', 'logs');
-if (!fs.existsSync(logsDir)) {
-    fs.mkdirSync(logsDir, { recursive: true });
+// Check if we're in a serverless environment
+const isServerless = process.env.VERCEL || process.env.AWS_LAMBDA_FUNCTION_NAME || process.env.CLOUD_MODE === 'true';
+
+// Only try to create logs directory if not in serverless environment
+let logsDir = null;
+if (!isServerless) {
+    try {
+        logsDir = path.join(__dirname, '..', '..', 'logs');
+        if (!fs.existsSync(logsDir)) {
+            fs.mkdirSync(logsDir, { recursive: true });
+        }
+    } catch (error) {
+        // If we can't create logs directory, just log to console
+        console.warn('Could not create logs directory, using console only:', error.message);
+        logsDir = null;
+    }
 }
 
 const logger = winston.createLogger({
@@ -20,13 +32,16 @@ const logger = winston.createLogger({
     ),
     transports: [
         new winston.transports.Console(),
-        new winston.transports.File({ 
-            filename: path.join(logsDir, 'error.log'), 
-            level: 'error' 
-        }),
-        new winston.transports.File({ 
-            filename: path.join(logsDir, 'combined.log') 
-        })
+        // Only add file transports if not in serverless environment and logs directory exists
+        ...(logsDir ? [
+            new winston.transports.File({ 
+                filename: path.join(logsDir, 'error.log'), 
+                level: 'error' 
+            }),
+            new winston.transports.File({ 
+                filename: path.join(logsDir, 'combined.log') 
+            })
+        ] : [])
     ]
 });
 
