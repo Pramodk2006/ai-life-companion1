@@ -1,12 +1,9 @@
 {
-  "name": "ai-companion-serverless",
+  "name": "clean-serverless",
   "version": "1.0.0",
-  "main": "api/index.js",
+  "main": "api/clean.js",
   "engines": {
-    "node": ">=18.0.0"
+    "node": "18.x"
   },
-  "dependencies": {},
-  "scripts": {
-    "start": "node api/index.js"
-  }
+  "dependencies": {}
 }

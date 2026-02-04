@@ -1,8 +1,20 @@
 {
-  "rewrites": [
+  "version": 2,
+  "functions": {
+    "api/clean.js": {
+      "runtime": "@vercel/node@3.0.7"
+    }
+  },
+  "routes": [
     {
-      "source": "/(.*)",
-      "destination": "/api/clean.js"
+      "src": "/(.*)",
+      "dest": "/api/clean.js"
+    }
+  ],
+  "builds": [
+    {
+      "src": "api/clean.js",
+      "use": "@vercel/node@3.0.7"
     }
   ]
 }

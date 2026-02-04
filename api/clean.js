@@ -1,43 +1,32 @@
-// CLEAN SERVERLESS FUNCTION - NO IMPORTS
-// Created: 2026-02-04 to fix AICompanion import error
+// ISOLATED SERVERLESS FUNCTION
+// NO IMPORTS - NO DEPENDENCIES - NO REFERENCES
 
-console.log('Loading clean serverless function...');
-
-module.exports = (req, res) => {
-    console.log('🚀 Clean function invoked:', req.method, req.url);
-    
+module.exports = function handler(req, res) {
+    // Basic error boundary
     try {
-        // Set headers
+        // Set response type
         res.setHeader('Content-Type', 'application/json');
-        res.setHeader('Access-Control-Allow-Origin', '*');
         
         // Handle favicon
-        if (req.url === '/favicon.ico') {
-            console.log('✅ Favicon handled');
+        if (req.url && req.url.includes('favicon')) {
             res.status(204).end();
             return;
         }
         
-        // Success response
-        const response = {
-            message: '🎉 Clean AI Companion Function Working!',
-            status: 'success',
-            method: req.method,
-            url: req.url,
-            timestamp: new Date().toISOString(),
-            version: 'clean-v1'
-        };
+        // Basic success response
+        res.status(200).json({
+            status: 'SUCCESS',
+            message: 'Isolated serverless function working',
+            timestamp: Date.now(),
+            method: req.method || 'UNKNOWN',
+            url: req.url || '/'
+        });
         
-        console.log('✅ Sending response:', JSON.stringify(response));
-        res.status(200).json(response);
-        
-    } catch (error) {
-        console.error('❌ Function error:', error);
+    } catch (err) {
+        // Minimal error response
         res.status(500).json({
-            error: 'Function failed',
-            message: error.message
+            error: 'Function error',
+            message: err.message || 'Unknown error'
         });
     }
 };
-
-console.log('✅ Clean serverless function loaded successfully');

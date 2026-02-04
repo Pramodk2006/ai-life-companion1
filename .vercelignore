@@ -1,0 +1,14 @@
+# Ignore everything except the api folder
+src/
+start-cloud.js
+start-console.js
+test-proactive.js
+demo-proactive.js
+scripts/
+logs/
+node_modules/
+*.md
+package.json
+package-lock.json
+.env*
+api/index.js.old
