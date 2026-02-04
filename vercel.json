@@ -1,7 +1,5 @@
 {
   "functions": {
-    "api/clean.js": {
-      "memory": 128
-    }
+    "api/index.js": {}
   }
 }

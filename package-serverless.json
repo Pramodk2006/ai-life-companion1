@@ -1,9 +1,0 @@
-{
-  "name": "clean-serverless",
-  "version": "1.0.0",
-  "main": "api/clean.js",
-  "engines": {
-    "node": "18.x"
-  },
-  "dependencies": {}
-}
