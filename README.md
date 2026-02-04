@@ -35,6 +35,7 @@ npm run setup
 ```
 
 Follow the interactive setup to configure:
+
 - Your personal information
 - Supabase database connection
 - Social media profiles to monitor
@@ -128,6 +129,7 @@ LEETCODE_USERNAME=your_leetcode
 ### Database Schema
 
 The system uses these Supabase tables:
+
 - `conversations`: All messages with timestamps
 - `goals`: Personal goals and objectives
 - `goal_progress`: Progress tracking and mood

@@ -3,6 +3,7 @@
 ## Quick Deploy Steps:
 
 ### 1. **Create Railway Account**
+
 - Go to [railway.app](https://railway.app)
 - Sign up with GitHub
 - It's free for hobby projects
@@ -10,16 +11,19 @@
 ### 2. **Deploy Your Project**
 
 **Option A: Direct Deploy (Recommended)**
+
 - Click: [![Deploy on Railway](https://railway.app/button.svg)](https://railway.app/new/template)
 - Connect your GitHub account
 - Upload this project folder
 
 **Option B: GitHub Deploy**
+
 - Push this project to GitHub
 - Connect Railway to your GitHub repo
 - Railway auto-deploys on code changes
 
 ### 3. **Set Environment Variables in Railway**
+
 Go to Railway project → Variables tab and add:
 
 ```
@@ -37,6 +41,7 @@ DISABLE_CONSOLE=true
 ```
 
 ### 4. **Deploy & Monitor**
+
 - Railway automatically builds and deploys
 - Check logs in Railway dashboard
 - Your AI companion runs 24/7!
@@ -53,16 +58,19 @@ DISABLE_CONSOLE=true
 ## 🔧 **Alternative Cloud Platforms:**
 
 ### Render.com
+
 - Free tier available
 - Easy deployment
 - Good for Node.js apps
 
 ### Vercel
+
 - Great for frontend + API
 - Free tier
 - Excellent performance
 
 ### Heroku
+
 - Classic choice
 - Easy deployment
 - Free tier limited
@@ -70,8 +78,9 @@ DISABLE_CONSOLE=true
 ## 📱 **Getting Messages on Your Phone:**
 
 Once deployed, you can add:
+
 1. **Telegram Bot** - Free, reliable notifications
-2. **Email Notifications** - Simple and effective  
+2. **Email Notifications** - Simple and effective
 3. **SMS Integration** - Direct to your phone
 4. **WhatsApp Business API** - Official WhatsApp (paid)
 
