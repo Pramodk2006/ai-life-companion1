@@ -2,6 +2,14 @@
 module.exports = function(req, res) {
     res.setHeader('Content-Type', 'application/json');
     
+    if (req.url === '/health') {
+        res.status(200).json({
+            status: 'ok',
+            timestamp: Date.now()
+        });
+        return;
+    }
+
     if (req.url && req.url.includes('favicon')) {
         res.status(204).end();
         return;
